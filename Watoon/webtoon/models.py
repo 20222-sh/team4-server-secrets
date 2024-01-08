@@ -7,15 +7,20 @@ from user.models import User
 
 # Create your models here.
 class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
     isAuthor = models.BooleanField(default=False)
 
     subscribers = models.ManyToManyField('self', symmetrical=False, blank=True, related_name='subscribingAuthors') # 구독자
+
+    def __str__(self):
+        return self.user.nickname
 
 
 class DayOfWeek(models.Model):
     """요일 모델 : 요일별 웹툰 분류를 위해 사용"""
     # 요일 이름 : Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
-    name = models.CharField(max_length=10)
+    name = models.CharField(max_length=10, primary_key=True)
 
     def __str__(self):
         return self.name
