@@ -29,9 +29,18 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
+  
+  envs:
+    steps:
+    - name: Create .env file
+      run: |
+        run: |
+          echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
+          echo "EMAIL_HOST_USER=${{ secrets.WATOON_EMAIL_HOST_USER }}" >> .env
+          echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> .env
 
   build:
-    needs: ci
+    needs: ci, envs
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
