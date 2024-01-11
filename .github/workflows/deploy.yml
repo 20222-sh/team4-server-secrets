@@ -37,7 +37,6 @@ jobs:
       - name: Run Tests
         run: |
           echo "Current directory: $(pwd)"
-          echo "Contents of /shared directory:"
           python manage.py test
     
   build:
