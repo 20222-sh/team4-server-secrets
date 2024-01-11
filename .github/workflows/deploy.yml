@@ -41,7 +41,7 @@ jobs:
           echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> .env
 
   build:
-    needs: ci, envs
+    needs: [ci, envs]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
