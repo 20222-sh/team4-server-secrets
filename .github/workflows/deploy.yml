@@ -1,10 +1,3 @@
-name: Deploy Django project
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
   ci:
     name: 'Django CI'
@@ -17,10 +10,9 @@ jobs:
     steps:
       - name: Create .env file
         run: |
-          run: |
-            echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
-            echo "EMAIL_HOST_USER=${{ secrets.WATOON_EMAIL_HOST_USER }}" >> .env
-            echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> .env
+          echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
+          echo "EMAIL_HOST_USER=${{ secrets.WATOON_EMAIL_HOST_USER }}" >> .env
+          echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> .env
 
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -40,12 +32,8 @@ jobs:
     needs: ci
     runs-on: ubuntu-latest
     steps:
-      - name: Create .env file
-        run: |
-          run: |
-            echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
-            echo "EMAIL_HOST_USER=${{ secrets.WATOON_EMAIL_HOST_USER }}" >> .env
-            echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> .env
+      - name: Use .env file from ci job
+        run: cp ci/.env .env  # Copy .env file from ci job to the current directory
 
       - name: Checkout
         uses: actions/checkout@v2
