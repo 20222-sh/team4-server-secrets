@@ -9,6 +9,7 @@ jobs:
   envs:
     runs-on: ubuntu-latest
     container:
+      image: ubuntu-latest
       volumes:
         - envs-volume:/shared
     steps:
@@ -30,6 +31,7 @@ jobs:
     needs: envs
     runs-on: ubuntu-latest
     container:
+      image: ubuntu-latest
       volumes:
         - envs-volume:/shared
     strategy:
@@ -62,6 +64,7 @@ jobs:
     needs: ci
     runs-on: ubuntu-latest
     container:
+      image: ubuntu-latest
       volumes:
         - envs-volume:/shared    
     steps:
