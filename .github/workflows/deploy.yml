@@ -15,15 +15,6 @@ jobs:
         python-version: [3.11]
 
     steps:
-      - name: Create .env file
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Contents of /shared directory:"
-                  
-          echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
-          echo "EMAIL_HOST_USER=${{ secrets.WATOON_EMAIL_HOST_USER }}" >> .env
-          echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> .env
-
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
@@ -36,9 +27,11 @@ jobs:
           pip install -r requirements.txt
       - name: Run Tests
         run: |
-          echo "Current directory: $(pwd)"
           python manage.py test
-    
+        env:
+          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          EMAIL_HOST_USER: ${{ secrets.WATOON_EMAIL_HOST_USER }}
+          EMAIL_HOST_PASSWORD: ${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}
   build:
     needs: ci
     runs-on: ubuntu-latest
