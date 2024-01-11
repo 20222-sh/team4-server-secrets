@@ -6,56 +6,21 @@ on:
       - main
 
 jobs:
-  envs:
-    runs-on: ubuntu-latest
-    container:
-      image: python:3.11
-      volumes:
-        - envs-volume:/shared
-    steps:
-      - name: Check current directory
-        run: pwd
-    
-      - name: Create shared directory
-        run: mkdir -p shared
-
-      - name: Create .env file
-        run: |
-          echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> /shared/.env
-          echo "EMAIL_HOST_USER=${{ secrets.WATOON_EMAIL_HOST_USER }}" >> /shared/.env
-          echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> /shared/.env
-
-      - name: Use .env in envs
-        run: echo "Using .env in envs"
-
   ci:
     name: 'Django CI'
     needs: envs
     runs-on: ubuntu-latest
-    container:
-      image: python:3.11
-      volumes:
-        - envs-volume:/shared
     strategy:
       max-parallel: 4
       matrix:
         python-version: [3.11]
 
     steps:
-      - name: Use .env??
+      - name: Create .env file
         run: |
-          echo "Current directory: $(pwd)"
-          echo "Contents of /shared directory:"
-          ls -la /shared
-          cat /shared/.env
-          echo "Using .env in envs"
-          
-      - name: Check current directory
-        run: pwd    
-      - name: Use .env in ci
-        run: |
-          cat /shared/.env
-          echo "Using .env in ci"
+          echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
+          echo "EMAIL_HOST_USER=${{ secrets.WATOON_EMAIL_HOST_USER }}" >> .env
+          echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> .env
 
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -75,15 +40,14 @@ jobs:
   build:
     needs: ci
     runs-on: ubuntu-latest
-    container:
-      image: python:3.11
-      volumes:
-        - envs-volume:/shared    
     steps:
-      - name: Use .env in build
+      - name: Create .env file
         run: |
-          cat /shared/.env
-          echo "Using .env in build"
+          echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
+          echo "EMAIL_HOST_USER=${{ secrets.WATOON_EMAIL_HOST_USER }}" >> .env
+          echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> .env
+
+
 
       - name: Checkout
         uses: actions/checkout@v2
