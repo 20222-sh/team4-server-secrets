@@ -32,13 +32,11 @@ jobs:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           EMAIL_HOST_USER: ${{ secrets.WATOON_EMAIL_HOST_USER }}
           EMAIL_HOST_PASSWORD: ${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}
+
   build:
     needs: ci
     runs-on: ubuntu-latest
     steps:
-      - name: Use .env file from ci job
-        run: cp ci/.env .env  # Copy .env file from ci job to the current directory
-
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -60,6 +58,12 @@ jobs:
           
           python manage.py migrate
           #없어도 돌아가는 듯?
+
+        env:
+          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          EMAIL_HOST_USER: ${{ secrets.WATOON_EMAIL_HOST_USER }}
+          EMAIL_HOST_PASSWORD: ${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}
+
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
 
@@ -80,3 +84,8 @@ jobs:
           version_label: github-action-${{ steps.current-time.outputs.formattedTime }}
           region: ap-northeast-2
           deployment_package: deploy.zip
+
+        env:
+          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          EMAIL_HOST_USER: ${{ secrets.WATOON_EMAIL_HOST_USER }}
+          EMAIL_HOST_PASSWORD: ${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}
