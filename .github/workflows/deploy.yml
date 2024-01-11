@@ -42,6 +42,14 @@ jobs:
         python-version: [3.11]
 
     steps:
+      - name: Use .env??
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Contents of /shared directory:"
+          ls -la /shared
+          cat /shared/.env
+          echo "Using .env in envs"
+          
       - name: Check current directory
         run: pwd    
       - name: Use .env in ci
