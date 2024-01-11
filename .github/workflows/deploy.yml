@@ -1,3 +1,10 @@
+name: Deploy Django project
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   ci:
     name: 'Django CI'
@@ -10,9 +17,10 @@ jobs:
     steps:
       - name: Create .env file
         run: |
-          echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
-          echo "EMAIL_HOST_USER=${{ secrets.WATOON_EMAIL_HOST_USER }}" >> .env
-          echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> .env
+          run: |
+            echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
+            echo "EMAIL_HOST_USER=${{ secrets.WATOON_EMAIL_HOST_USER }}" >> .env
+            echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> .env
 
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -26,6 +34,8 @@ jobs:
           pip install -r requirements.txt
       - name: Run Tests
         run: |
+          echo "Current directory: $(pwd)"
+          echo "Contents of /shared directory:"
           python manage.py test
     
   build:
