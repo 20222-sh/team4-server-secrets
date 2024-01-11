@@ -31,6 +31,7 @@ jobs:
         python manage.py test
   
   envs:
+    runs-on: ubuntu-latest
     steps:
     - name: Create .env file
       run: |
