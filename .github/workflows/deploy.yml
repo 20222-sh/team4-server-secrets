@@ -13,6 +13,9 @@ jobs:
       volumes:
         - envs-volume:/shared
     steps:
+      - name: Check current directory
+        run: pwd
+    
       - name: Create shared directory
         run: mkdir -p shared
 
@@ -24,7 +27,7 @@ jobs:
 
       - name: Use .env in envs
         run: echo "Using .env in envs"
-        
+
   ci:
     name: 'Django CI'
     needs: envs
@@ -39,6 +42,8 @@ jobs:
         python-version: [3.11]
 
     steps:
+      - name: Check current directory
+        run: pwd    
       - name: Use .env in ci
         run: |
           cat /shared/.env
