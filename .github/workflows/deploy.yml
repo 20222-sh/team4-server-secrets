@@ -86,7 +86,7 @@ jobs:
           region: ap-northeast-2
           deployment_package: deploy.zip
 
-        env:
-          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-          EMAIL_HOST_USER: ${{ secrets.WATOON_EMAIL_HOST_USER }}
-          EMAIL_HOST_PASSWORD: ${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}
+        # env:
+        #   SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+        #   EMAIL_HOST_USER: ${{ secrets.WATOON_EMAIL_HOST_USER }}
+        #   EMAIL_HOST_PASSWORD: ${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}
