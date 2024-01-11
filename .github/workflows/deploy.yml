@@ -23,7 +23,6 @@ jobs:
       - uses: oNaiPs/secrets-to-env-action@v1
         with:
           secrets: ${{ toJSON(secrets) }}
-      - run: echo "Value of MY_SECRET1: $MY_SECRET1"
 
       - name: Install Dependencies
         run: |
@@ -33,10 +32,10 @@ jobs:
         run: |
           python manage.py test
         
-        env:
-          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-          EMAIL_HOST_USER: ${{ secrets.WATOON_EMAIL_HOST_USER }}
-          EMAIL_HOST_PASSWORD: ${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}
+        # env:
+        #   SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+        #   EMAIL_HOST_USER: ${{ secrets.WATOON_EMAIL_HOST_USER }}
+        #   EMAIL_HOST_PASSWORD: ${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}
 
   build:
     # needs: ci
