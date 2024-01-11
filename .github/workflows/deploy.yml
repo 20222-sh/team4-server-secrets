@@ -6,8 +6,19 @@ on:
       - main
 
 jobs:
+  envs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Create .env file
+      run: |
+        run: |
+          echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
+          echo "EMAIL_HOST_USER=${{ secrets.WATOON_EMAIL_HOST_USER }}" >> .env
+          echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> .env
+
   ci:
     name: 'Django CI'
+    needs: envs
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
@@ -30,18 +41,8 @@ jobs:
       run: |
         python manage.py test
   
-  envs:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Create .env file
-      run: |
-        run: |
-          echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
-          echo "EMAIL_HOST_USER=${{ secrets.WATOON_EMAIL_HOST_USER }}" >> .env
-          echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> .env
-
   build:
-    needs: [ci, envs]
+    needs: ci
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
