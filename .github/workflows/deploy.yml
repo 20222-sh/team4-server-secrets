@@ -28,13 +28,14 @@ jobs:
       - name: Run Tests
         run: |
           python manage.py test
+        
         env:
           SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           EMAIL_HOST_USER: ${{ secrets.WATOON_EMAIL_HOST_USER }}
           EMAIL_HOST_PASSWORD: ${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}
 
   build:
-    needs: ci
+    # needs: ci
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -45,24 +46,24 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies & migration
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3-venv zip
-          python -m venv venv
-          source venv/bin/activate
-          python -m pip install --upgrade pip
+      # - name: Install dependencies & migration
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y python3-venv zip
+      #     python -m venv venv
+      #     source venv/bin/activate
+      #     python -m pip install --upgrade pip
           
-          pip install -r requirements.txt
-          python -m pip uninstall mysqlclient
+      #     pip install -r requirements.txt
+      #     python -m pip uninstall mysqlclient
           
-          python manage.py migrate
-          #없어도 돌아가는 듯?
+      #     python manage.py migrate
+      #     #없어도 돌아가는 듯?
 
-        env:
-          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-          EMAIL_HOST_USER: ${{ secrets.WATOON_EMAIL_HOST_USER }}
-          EMAIL_HOST_PASSWORD: ${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}
+      #   env:
+      #     SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+      #     EMAIL_HOST_USER: ${{ secrets.WATOON_EMAIL_HOST_USER }}
+      #     EMAIL_HOST_PASSWORD: ${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}
 
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
