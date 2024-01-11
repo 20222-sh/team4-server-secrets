@@ -9,6 +9,9 @@ jobs:
   envs:
     runs-on: ubuntu-latest
     steps:
+    - name: Create shared directory
+      run: mkdir -p shared
+      
     - name: Create .env file
       run: |
         run: |
