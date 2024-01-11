@@ -17,10 +17,12 @@ jobs:
     steps:
       - name: Create .env file
         run: |
-          run: |
-            echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
-            echo "EMAIL_HOST_USER=${{ secrets.WATOON_EMAIL_HOST_USER }}" >> .env
-            echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> .env
+          echo "Current directory: $(pwd)"
+          echo "Contents of /shared directory:"
+                  
+          echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
+          echo "EMAIL_HOST_USER=${{ secrets.WATOON_EMAIL_HOST_USER }}" >> .env
+          echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> .env
 
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
