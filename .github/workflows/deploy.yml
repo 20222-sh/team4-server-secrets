@@ -19,8 +19,8 @@ jobs:
           echo "EMAIL_HOST_USER=${{ secrets.WATOON_EMAIL_HOST_USER }}" >> shared/.env
           echo "EMAIL_HOST_PASSWORD=${{ secrets.WATOON_EMAIL_HOST_PASSWORD }}" >> shared/.env
 
-      - name: Use .env in envs
-        run: echo "Using .env in envs"
+    - name: Use .env in envs
+      run: echo "Using .env in envs"
 
   ci:
     name: 'Django CI'
